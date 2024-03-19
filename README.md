@@ -1,3 +1,3 @@
 # Alarm
 
-click [here]() to view my application
+Click [here]() to view my application
