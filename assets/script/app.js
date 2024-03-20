@@ -11,6 +11,24 @@ const outpoutError = document.querySelector('.alert p');
 const alarmSound = new Audio('./assets/audio/alarm.mp3')
 alarmSound.type = 'audio/mp3'
 
+
+document.addEventListener('DOMContentLoaded', () => {
+  updateCurrentTime(); 
+  setInterval(alarm, 1000);
+  outpoutError.innerText = '';
+});
+
+// PLAY SOUND IF CURRENT TIME === INPUT TIME
+function alarm() {  
+  let hourValue = hour.value.toString().padStart(2, '0');  
+  let minuteValue = minute.value.toString().padStart(2, '0');
+  let currentInput = `${hourValue}:${minuteValue}`
+
+  if (updateCurrentTime() === currentInput) {
+    alarmSound.play();
+  }
+}
+
 // UPDATE AND DISPLAY CURRENT TIME
 function updateCurrentTime() {
   const today = new Date();
@@ -18,12 +36,9 @@ function updateCurrentTime() {
   const currentMinute = today.getMinutes().toString().padStart(2, '0');
   const current = `${currentHour}:${currentMinute}`;
   outputH2.innerText = current;
+
+  return current;
 }
-document.addEventListener('DOMContentLoaded', () => {
-  updateCurrentTime(); 
-  setInterval(updateCurrentTime, 1000);
-  outpoutError.innerText = '';
-});
 
 // DISPLAY INPUT
 function displaySelectedTime() {
@@ -44,11 +59,11 @@ minute.addEventListener("input", limitInput);
 
 // ERROR MESSAGES AND ICON VISIBILITY
 setAlarm.addEventListener('click', function() {
-  if (hour.value === '' || minute.value === '') { // dont display icon if input empty
+  if (hour.value === '' || minute.value === '') { 
     outpoutError.innerText = 'Please input hour and minute.'
     return;
 
-  } else if (hour.value > 24 || hour.value < 0) { // check if hour is out of range
+  } else if (hour.value > 24 || hour.value < 0) { 
       outpoutError.innerText = 'Hour must be between 0 and 24.';
       return;
 
@@ -58,28 +73,11 @@ setAlarm.addEventListener('click', function() {
 
   } else {
       displaySelectedTime()
+      outpoutError.innerText = ''
 
       alarmIcon.classList.add("visible");
       
-      
-      outpoutError.innerText = ''
       alarmIcon.classList.add('anim');
       setTimeout(() => {alarmIcon.classList.remove('anim')}, 800);
   }
 });
-
-// PLAY SOUND IF CURRENT TIME === INPUT TIME
-function playSound() {  
-  const today = new Date();
-  const currentHour = today.getHours().toString().padStart(2, '0');
-  const currentMinute = today.getMinutes().toString().padStart(2, '0');
-  const current = `${currentHour}:${currentMinute}`;
-
-  let hourValue = hour.value.toString().padStart(2, '0');  // padStart() two digits  
-  let minuteValue = minute.value.toString().padStart(2, '0');
-  let currentInput = `${hourValue}:${minuteValue}`
-
-  if (current === currentInput) {
-    alarmSound.play();
-  }
-}
