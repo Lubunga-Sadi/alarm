@@ -18,17 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
   outpoutError.innerText = '';
 });
 
-// PLAY SOUND IF CURRENT TIME === INPUT TIME
-function alarm() {  
-  let hourValue = hour.value.toString().padStart(2, '0');  
-  let minuteValue = minute.value.toString().padStart(2, '0');
-  let currentInput = `${hourValue}:${minuteValue}`
-
-  if (updateCurrentTime() === currentInput) {
-    alarmSound.play();
-  }
-}
-
 // UPDATE AND DISPLAY CURRENT TIME
 function updateCurrentTime() {
   const today = new Date();
@@ -38,6 +27,15 @@ function updateCurrentTime() {
   outputH2.innerText = current;
 
   return current;
+}
+
+// PLAY SOUND IF CURRENT TIME === INPUT TIME
+function alarm() {  
+  if (updateCurrentTime() === outputH3.innerText) { 
+    alarmSound.play();
+    info.style.display = 'inline'
+    mainContent.style.display = 'none'
+  }
 }
 
 // DISPLAY INPUT
@@ -63,13 +61,16 @@ setAlarm.addEventListener('click', function() {
     outpoutError.innerText = 'Please input hour and minute.'
     return;
 
-  } else if (hour.value > 24 || hour.value < 0) { 
-      outpoutError.innerText = 'Hour must be between 0 and 24.';
-      return;
+  } 
 
-  } else if (minute.value > 59 || minute.value < 0) {
-      outpoutError.innerText = 'Minute must be between 0 and 59.';
-      return;
+  if (hour.value > 24 || hour.value < 0) { 
+    outpoutError.innerText = 'Hour must be between 0 and 24.';
+    return;
+  }
+
+  if (minute.value > 59 || minute.value < 0) {
+    outpoutError.innerText = 'Minute must be between 0 and 59.';
+    return;
 
   } else {
       displaySelectedTime()
@@ -79,5 +80,12 @@ setAlarm.addEventListener('click', function() {
       
       alarmIcon.classList.add('anim');
       setTimeout(() => {alarmIcon.classList.remove('anim')}, 800);
+      hour.value = ''
+      minute.value = ''
   }
 });
+
+const play = document.querySelector('.play-button');
+const info = document.querySelector('.info');
+const mainContent = document.querySelector('.alarm');
+
