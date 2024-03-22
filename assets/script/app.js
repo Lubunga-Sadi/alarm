@@ -1,6 +1,7 @@
 'use strict';
 
-
+const outputH1 = document.querySelector('h1');
+const outputH2 = document.querySelector('h2');
 const outputH3 = document.querySelector('.output h3');
 const hour = document.querySelector('.hour');
 const minute = document.querySelector('.minute');
