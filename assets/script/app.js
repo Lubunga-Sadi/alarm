@@ -1,6 +1,6 @@
 'use strict';
 
-const outputH2 = document.querySelector('h2');
+
 const outputH3 = document.querySelector('.output h3');
 const hour = document.querySelector('.hour');
 const minute = document.querySelector('.minute');
@@ -26,6 +26,7 @@ function updateCurrentTime() {
   const current = `${currentHour}:${currentMinute}`;
   outputH2.innerText = current;
 
+  outputH1.innerText = today.toDateString()
   return current;
 }
 
@@ -33,8 +34,6 @@ function updateCurrentTime() {
 function alarm() {  
   if (updateCurrentTime() === outputH3.innerText) { 
     alarmSound.play();
-    info.style.display = 'inline'
-    mainContent.style.display = 'none'
   }
 }
 
@@ -89,3 +88,10 @@ const play = document.querySelector('.play-button');
 const info = document.querySelector('.info');
 const mainContent = document.querySelector('.alarm');
 
+
+// Enter button activates "set alarm" button
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Enter') {
+    setAlarm.click();
+  }
+});
